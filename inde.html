@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#">To-Do List</a>
+        </div>
+        <div class="navbar-right">
+            <a href="#">Home</a>
+            <a href="#">Sign In</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <div class="task-entry">
+            <input type="text" id="task-input" placeholder="Enter a new task">
+            <input type="date" id="due-date">
+            <select id="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <select id="category">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="other">Other</option>
+            </select>
+            <button id="add-task">Add Task</button>
+        </div>
+        <ul id="task-list"></ul>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const taskInput = document.getElementById('task-input');
+    const dueDateInput = document.getElementById('due-date');
+    const prioritySelect = document.getElementById('priority');
+    const categorySelect = document.getElementById('category');
+    const addTaskButton = document.getElementById('add-task');
+    const taskList = document.getElementById('task-list');
+
+    addTaskButton.addEventListener('click', () => {
+        const taskText = taskInput.value.trim();
+        const dueDate = dueDateInput.value;
+        const priority = prioritySelect.value;
+        const category = categorySelect.value;
+
+        if (taskText) {
+            const taskItem = document.createElement('li');
+            taskItem.classList.add('task');
+
+            const taskContent = document.createElement('span');
+            taskContent.textContent = `${taskText} [${category}] - ${priority} priority, due by ${dueDate}`;
+            taskItem.appendChild(taskContent);
+
+            const taskActions = document.createElement('div');
+            taskActions.classList.add('task-actions');
+
+            const completeButton = document.createElement('button');
+            completeButton.classList.add('complete-task');
+            completeButton.textContent = 'Complete';
+            completeButton.addEventListener('click', () => {
+                taskItem.classList.toggle('complete');
+            });
+            taskActions.appendChild(completeButton);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('delete-task');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => {
+                taskList.removeChild(taskItem);
+            });
+            taskActions.appendChild(deleteButton);
+
+            taskItem.appendChild(taskActions);
+            taskList.appendChild(taskItem);
+
+            // Clear input fields
+            taskInput.value = '';
+            dueDateInput.value = '';
+            prioritySelect.value = 'low';
+            categorySelect.value = 'work';
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
